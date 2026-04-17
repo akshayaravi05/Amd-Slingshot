@@ -98,9 +98,15 @@ app.get('/api/trending', (req, res) => {
   res.json(trending);
 });
 
-import http from 'http';
-
 const server = http.createServer(app);
+
+// Serve static files from the Vite build directory
+app.use(express.static(path.join(__dirname, '../dist')));
+
+// Catch-all route to serve index.html for React Router
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../dist', 'index.html'));
+});
 
 server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
